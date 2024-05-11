@@ -1,6 +1,6 @@
 <?php
 
-    require_once '../model/Usuario.php';
+    require_once 'model/Usuario.php';
 
     class UsuarioController{
 
@@ -21,14 +21,13 @@
         $usuario->save();
     }
 
-    public function listar() {
+    public static function listar() {
 
         //cria um objetom do tipo Usuario
-        $usuario = new Usuario;
+        $usuarios = new Usuario;
         //chama o método listAll()
-        return $usuario->listAll();
+        return $usuarios->listAll();
     }
 
     }
-
 ?>

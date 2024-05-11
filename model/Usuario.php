@@ -1,7 +1,7 @@
 <?php
 
     require_once 'Banco.php';
-    require_once '../Conexao.php';
+    require_once 'Conexao.php';
 
 
     class Usuario extends Banco {
@@ -49,15 +49,24 @@
             //cria um objeto do tipo conexao
             $conexao = new Conexao();
 
-            //cria query de inserção passando os atributos que serão armazenados
-            $query = "insert into usuario(id, login, senha, permissao) values (null,:login,:senha, :permissao)";
-            //cria a conexao com o banco de dados
             if($conn = $conexao->getConnection()){
+                if($this->id = 0){
+                    $query = "UPDATE usuario set login = :login, senha = :senha, permissao = :permissao where id = :id";
+                    $stmt = $conn->prepare($query);
+                    if($stmt->execute(array(':login' => $this->login, ':senha' => $this->senha, ':permissao' => $this->permissao, ":id" => $this->id))){
+                        $result = $stmt->rowCount();
+                    }
+                }else{
+                     //cria query de inserção passando os atributos que serão armazenados
+            $query = "INSERT into usuario(id, login, senha, permissao) values (null,:login,:senha, :permissao)";
+            //cria a conexao com o banco de dados
+            
                 //Prepara a query para execução
                 $stmt = $conn->prepare($query);
                 //executa a query
                 if($stmt->execute(array(':login' => $this->login, ':senha' => $this->senha, ':permissao' => $this->permissao))){
                     $result = $stmt->rowCount();
+                }
                 }
             }
             return $result;
@@ -68,7 +77,18 @@
         }
 
         public function find($id){
-
+            $conexao = new Conexao;
+            $conn = $conexao->getConection();
+            $query = "SELECT * from usuario where id = :id";
+            $stmt = $conn->prepare($query);
+            if($stmt->execute(array(":id" => $id))){
+                if($stmt->rowCount() > 0){
+                    $result = $stmt->fetchObject(Usuario::class);
+                }else{
+                    $result = false;
+                }
+            }
+            return $result;
         }
 
         public function count(){

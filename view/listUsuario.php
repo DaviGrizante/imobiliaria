@@ -7,16 +7,16 @@
             <tr>
                 <th>Login</th>
                 <th>Permissão</th>
-                <th><a href="cadUsuario">Novo</a></th>
+                <th><a href="cadUsuario.php">Novo</a></th>
             </tr>
         </thead>
 
         <tbody>
             <?php
             //importa o UsuarioController.php
-            require_once '../controller/UsuarioController.php';
+            require_once '../controller/usuarioController.php';
             //chama uma função PHP que permite informar a classe e o método que será acionado
-            $usuario = call_user_func(array('UsarioController','listar'));
+            $usuarios = call_user_func(array('UsuarioController','listar'));
             //Verifica se houve algum retorno
             if(isset($usuarios)){
                 foreach ($usuarios as $usuario){
